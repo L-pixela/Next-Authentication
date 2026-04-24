@@ -1,14 +1,13 @@
-import type { Metadata } from 'next'
+import AppHeader from '@/src/components/ui/layout/AppHeader';
+import AppFooter from '@/src/components/ui/layout/AppFooter';
+import RegisterForm from '@/src/components/auth/register/RegisterForm';
 
-export const metadata: Metadata = { title: 'Register' }
-
-export default function RegisterPage() {
+export default function LoginPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-sm p-8 border rounded-lg shadow-sm">
-        <h1 className="text-2xl font-semibold mb-6">Create Account</h1>
-        <p className="text-sm text-gray-500">Registration form placeholder.</p>
-      </div>
-    </main>
-  )
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#f5f5f5' }}>
+      <AppHeader />
+      <RegisterForm />
+      <AppFooter />
+    </div>
+  );
 }

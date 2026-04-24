@@ -9,8 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@casl/ability": "^6.8.1",
-    "@casl/react": "^6.0.0",
     "axios": "^1.15.2",
     "next": "16.2.4",
     "next-auth": "^4.24.14",

@@ -1,0 +1,175 @@
+/* ── Page background ── */
+.page {
+  background-color: #f3f4f8;
+  padding: 48px 48px;
+}
+
+/* ── Center the column vertically & horizontally ── */
+.row {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── White card ── */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px 36px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+}
+
+/* ── Title ── */
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 28px;
+}
+
+/* ── Field wrapper ── */
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+/* ── Input base ── */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  background: #fafafa;
+  color: #111827;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #e91e63;
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.12);
+  background: #fff;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* ── Password wrapper (input + eye icon) ── */
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper .input {
+  padding-right: 44px; /* space for eye button */
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  padding: 0;
+  line-height: 1;
+}
+
+/* ── Forgot password row ── */
+.forgotRow {
+  display: flex;
+  justify-content: flex-end;  /* pushes link to the RIGHT */
+  margin-bottom: 24px;
+}
+
+.forgotLink {
+  font-size: 13px;
+  color: #e91e63;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Continue button (override RSuite primary) ── */
+.submitBtn.submitBtn {
+  background-color: #e91e63 !important;
+  border-color: #e91e63 !important;
+  border-radius: 8px !important;
+  height: 46px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, transform 0.15s !important;
+}
+
+.submitBtn.submitBtn:hover {
+  background-color: #c2185b !important;
+  border-color: #c2185b !important;
+  transform: translateY(-1px);
+}
+
+/* ── Sign up row ── */
+.signupText {
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+  margin: 20px 0 0;
+}
+
+.signupLink {
+  color: #e91e63;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+/* OTP error state on digit box */
+.otpInput.otpError {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10);
+}
+ 
+/* Error message below OTP boxes */
+.otpErrorText {
+  text-align: center;
+  font-size: 12px;
+  color: #ef4444;
+  margin: -8px 0 12px;
+}
+ 
+/* Back button link */
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: color 0.15s;
+}
+ 
+.backLink:hover {
+  color: #111827;
+}
