@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import type { LoginCredentials } from './types'
+import { verifyOtp, requestOtp } from './api'
 
 type UseLoginReturn = {
   login: (credentials: LoginCredentials) => Promise<void>
@@ -43,4 +44,29 @@ export function useLogin(): UseLoginReturn {
 
 export function useAuthSession() {
   return useSession()
+}
+
+export function useOtpVerify(phoneNumber: string) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function verify(code: string): Promise<boolean> {
+    setLoading(true)
+    setError(null)
+    try {
+      await verifyOtp(phoneNumber, code)
+      return true
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Invalid code. Please try again.')
+      return false
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function resend(): Promise<void> {
+    await requestOtp(phoneNumber)
+  }
+
+  return { verify, resend, loading, error }
 }

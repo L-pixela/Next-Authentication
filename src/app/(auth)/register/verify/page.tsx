@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
+import { useRouter } from 'next/navigation';
 import OtpForm from '@/src/components/auth/otp/OtpForm';
-import router from 'next/router';
 
-export default function ResetOtpPage() {
+export default function RegisterVerifyPage() {
+  const router = useRouter();
   return (
     <OtpForm
-      mode="reset-password"
+      mode="signup"
       phoneNumber="069888999"
-      onBack={() => router.push('/forgot-password')}
+      onBack={() => router.push('/register')}
       onSuccess={() => router.push('/dashboard')}
     />
   );

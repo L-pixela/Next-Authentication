@@ -64,9 +64,3 @@ export const authOptions: NextAuthOptions = {
 export async function getServerAuthSession(): Promise<Session | null> {
   return getServerSession(authOptions)
 }
-
-export function getRoleFromSession(
-  session: Session | null | undefined
-): Role | 'unknown' {
-  return session?.user?.role ?? 'unknown'
-}
