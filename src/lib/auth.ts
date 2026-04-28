@@ -25,7 +25,6 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role,
           accessToken: user.accessToken,
         }
       },
@@ -42,9 +41,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        const u = user as typeof user & { role: Role; accessToken: string }
+        const u = user as typeof user & {accessToken: string }
         token.id = u.id
-        token.role = u.role
         token.accessToken = u.accessToken
       }
       return token

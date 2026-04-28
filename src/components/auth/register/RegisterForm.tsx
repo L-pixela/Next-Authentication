@@ -1,121 +1,257 @@
 'use client';
 import { useState } from 'react';
-import { Grid, Row, Col, Button, Checkbox } from 'rsuite';
-import styles from '../auth.module.css';
+import {
+  Container, Content, Panel, Button, Checkbox,
+  Form, VStack, InputGroup, Text, Heading
+} from 'rsuite';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+type FormValue = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type ValidationErrors = {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  password?: string;
+  confirmPassword?: string;
+  terms?: string;
+};
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formValue, setFormValue] = useState<FormValue>({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+
+  function validate(): ValidationErrors {
+    const errors: ValidationErrors = {};
+    if (!formValue.firstName) errors.firstName = 'First name is required';
+    if (!formValue.lastName) errors.lastName = 'Last name is required';
+    if (!formValue.phone) {
+      errors.phone = 'Phone number is required';
+    } else if (!/^\d{8,15}$/.test(formValue.phone)) {
+      errors.phone = 'Invalid phone number';
+    }
+    if (!formValue.password) {
+      errors.password = 'Password is required';
+    } else if (formValue.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+    if (!formValue.confirmPassword) {
+      errors.confirmPassword = 'Please confirm your password';
+    } else if (formValue.password !== formValue.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+    if (!agreed) errors.terms = 'You must agree to the Terms and Conditions';
+    return errors;
+  }
+
+  async function handleSubmit() {
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors({});
+    setLoading(true);
+    // TODO: call register API
+    setLoading(false);
+  }
+
+  const inputStyle = {
+    backgroundColor: '#f7f7f7',
+    border: '1.5px solid #e0e0e0',
+    borderRadius: 8,
+    width: '100%',
+  };
 
   return (
-    <div className={styles.page}>
-      <Grid fluid className={styles.grid}>
-        <Row className={styles.row}>
+    <Container style={{ minHeight: '100vh', backgroundColor: '#f0f2f5' }}>
+      <Content style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <Panel
+          bordered
+          style={{
+            width: '100%',
+            maxWidth: 768,
+            backgroundColor: '#ffffff',
+            borderRadius: 12,
+            padding: '16px 24px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+          }}
+        >
+          <Heading level={2} style={{ fontSize: 26, fontWeight: 700, marginBottom: 24, color: '#111' }}>
+            Sign Up
+          </Heading>
 
-          <Col width={768}>
-            <div className={styles.card}>
+          <Form
+            fluid
+            formValue={formValue}
+            onChange={(value) => setFormValue(value as FormValue)}
+            onSubmit={() => handleSubmit()}
+            style={{ width: '100%' }}
+          >
+            <VStack spacing={16} style={{ width: '100%' }}>
 
-              {/* ── Heading ── */}
-              <h2 className={styles.title}>Sign Up</h2>
+              {/* ── First Name ── */}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Form.ControlLabel>First name</Form.ControlLabel>
+                <Form.Control
+                  name="firstName"
+                  placeholder="Your first name"
+                  style={inputStyle}
+                />
+                {validationErrors.firstName && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.firstName}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
 
-              {/* ── Email / Phone ── */}
-              <div className={styles.field}>
-                <label className={styles.label}>First Name</label>
-                <input
-                  className={styles.input}
-                  placeholder="Your phone number or email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+              {/* ── Last Name ── */}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Form.ControlLabel>Last name</Form.ControlLabel>
+                <Form.Control
+                  name="lastName"
+                  placeholder="Your last name"
+                  style={inputStyle}
                 />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>Last Name</label>
-                <input
-                  className={styles.input}
-                  placeholder="Your phone number or email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                {validationErrors.lastName && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.lastName}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
+
+              {/* ── Phone Number ── */}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Form.ControlLabel>Phone number</Form.ControlLabel>
+                <Form.Control
+                  name="phone"
+                  placeholder="Your phone number"
+                  style={inputStyle}
                 />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>Phone Number</label>
-                <input
-                  className={styles.input}
-                  placeholder="Your phone number or email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                />
-              </div>
+                {validationErrors.phone && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.phone}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
 
               {/* ── Password ── */}
-              <div className={styles.field}>
-                <label className={styles.label}>Password</label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    className={styles.input}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Form.ControlLabel>Password</Form.ControlLabel>
+                <InputGroup inside style={{ ...inputStyle, width: '100%' }}>
+                  <Form.Control
+                    name="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Your password"
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    style={{ backgroundColor: 'transparent', border: 'none', width: '100%' }}
                   />
-                  <button
-                    className={styles.eyeBtn}
+                  <InputGroup.Button
                     onClick={() => setShowPassword(!showPassword)}
-                    type="button"
+                    style={{ background: 'none', color: '#888' }}
                   >
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
-                </div>
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>Confirm Password</label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    className={styles.input}
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Your password"
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  />
-                  <button
-                    className={styles.eyeBtn}
-                    onClick={() => setShowPassword(!showPassword)}
-                    type="button"
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
-                </div>
-              </div>
+                  </InputGroup.Button>
+                </InputGroup>
+                {validationErrors.password && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.password}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
 
-              {/* ── Terms and Conditions ── */}
-              <div className={styles.field}>
-                <Checkbox>
-                  I have read and agree with the <a href="/forgot-password" className={styles.forgotLink}>Term and Condition</a>
+              {/* ── Confirm Password ── */}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Form.ControlLabel>Confirm password</Form.ControlLabel>
+                <InputGroup inside style={{ ...inputStyle, width: '100%' }}>
+                  <Form.Control
+                    name="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="Confirm your password"
+                    style={{ backgroundColor: 'transparent', border: 'none', width: '100%' }}
+                  />
+                  <InputGroup.Button
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{ background: 'none', color: '#888' }}
+                  >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </InputGroup.Button>
+                </InputGroup>
+                {validationErrors.confirmPassword && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.confirmPassword}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
+
+              {/* ── Terms ── */}
+              <Form.Group style={{ width: '100%', marginBottom: 0 }}>
+                <Checkbox
+                  checked={agreed}
+                  onChange={(_, checked) => setAgreed(checked)}
+                >
+                  <span style={{ fontSize: 13, color: '#444' }}>
+                    I have read and agree with the{' '}
+                    <a href="/terms" style={{ color: '#e5194b', textDecoration: 'none' }}>
+                      Term and Condition
+                    </a>
+                  </span>
                 </Checkbox>
-              </div>
+                {validationErrors.terms && (
+                  <Form.HelpText style={{ color: '#e53e3e' }}>
+                    {validationErrors.terms}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
 
               {/* ── Continue Button ── */}
               <Button
                 appearance="primary"
                 block
-                className={styles.submitBtn}
-                onClick={() => {}}
+                loading={loading}
+                disabled={loading}
+                type='submit'
+                style={{
+                  backgroundColor: '#e5194b',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '12px 0',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  width: '100%',
+                }}
               >
                 Continue
               </Button>
 
-              {/* ── Sign Up ── */}
-              <p className={styles.signupText}>
-                Already have an account?{' '}
-                <a href="/login" className={styles.signupLink}>Login</a>
-              </p>
+            </VStack>
+          </Form>
 
-            </div>
-          </Col>
+          {/* ── Login Link ── */}
+          <Text style={{ textAlign: 'center', fontSize: 13, color: '#666', marginTop: 20 }}>
+            Already have an account?{' '}
+            <a href="/login" style={{ color: '#e5194b', fontWeight: 600, textDecoration: 'none' }}>
+              Login
+            </a>
+          </Text>
 
-        </Row>
-      </Grid>
-    </div>
+        </Panel>
+      </Content>
+    </Container>
   );
 }

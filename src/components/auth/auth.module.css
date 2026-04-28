@@ -1,11 +1,12 @@
 /* ── Page background ── */
 .page {
   background-color: #f3f4f8;
-  padding: 48px 48px;
+  min-height: 80vh;
 }
 
 /* ── Center the column vertically & horizontally ── */
 .row {
+  min-height: 80vh;
   display: flex !important;
   align-items: center;
   justify-content: center;

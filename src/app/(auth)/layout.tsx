@@ -1,7 +1,7 @@
-import { redirect } from 'next/navigation'
-import { getServerAuthSession } from '@/src/lib/auth'
-import AppHeader from '@/src/components/ui/layout/AppHeader'
 import AppFooter from '@/src/components/ui/layout/AppFooter'
+import AppHeader from '@/src/components/ui/layout/AppHeader'
+import { getServerAuthSession } from '@/src/lib/auth'
+import { redirect } from 'next/navigation'
 import { Container, Content } from 'rsuite'
 
 export default async function ProtectedLayout({
@@ -9,9 +9,9 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerAuthSession()
-
-  if (!session) redirect('/login')
+    const session = await getServerAuthSession()
+    
+    if (session) redirect('/warranty')
 
   return (
     <Container style={{ minHeight: '100vh' }}>
