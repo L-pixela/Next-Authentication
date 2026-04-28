@@ -1,5 +1,5 @@
 'use client';
-import { Container, Content, Panel, Table, Tag, Text, Stack, Divider, VStack } from 'rsuite';
+import { Container, Content, Panel, Table, Tag, Text, Stack, VStack } from 'rsuite';
 import Image from 'next/image';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -34,7 +34,6 @@ const WarrantyDetail = [
 ];
 
 function RemainingText({ remaining }: { remaining: string }) {
-  const isExpired = remaining.toLowerCase() === 'expired';
   return (
     <Text style={{ color: '#e5194b', fontSize: 12 }}>
       ({remaining})
